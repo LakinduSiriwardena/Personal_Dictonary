@@ -26,7 +26,8 @@ public class Main {
             System.out.println("1. Add new word");
             System.out.println("2. Check word definition");
             System.out.println("3. View all words in alphabetical order");
-            System.out.println("4. Exit");
+            System.out.println("4. View words by entry time");
+            System.out.println("5. Exit");
 
             System.out.println("Enter choice :");
 
@@ -54,6 +55,7 @@ public class Main {
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
+            
         }
         scanner.close();
     }
