@@ -24,6 +24,9 @@ public class Main {
             System.out.println("2. Check word definition");
             System.out.println("3. Exit");
 
+            System.out.println("Enter choice :");
+
+
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
@@ -48,6 +51,11 @@ public class Main {
         System.out.print("Enter the word: ");
         String word = scanner.nextLine();
 
+        String existingDefinition = dictionary.search(word);
+        if (existingDefinition != null) {
+            System.out.println("Word '" + word + "' already exists in the dictionary with definition: " + existingDefinition);
+            return; // Exit the method without adding the word
+        }
         System.out.print("Enter the definition: ");
         String definition = scanner.nextLine();
 
