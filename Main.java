@@ -1,4 +1,7 @@
+import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 public class Main {
 
         public static void main(String[] args) {
@@ -22,7 +25,8 @@ public class Main {
             System.out.println("Select an option:");
             System.out.println("1. Add new word");
             System.out.println("2. Check word definition");
-            System.out.println("3. Exit");
+            System.out.println("3. View all words in alphabetical order");
+            System.out.println("4. Exit");
 
             System.out.println("Enter choice :");
 
@@ -38,6 +42,13 @@ public class Main {
                     checkWordDefinition();
                     break;
                 case 3:
+                    viewAllWords();
+                    break;
+                case 4:
+                    viewAllWordsByTimestamp();
+                    break;
+
+                case 5:
                     running = false;
                     break;
                 default:
@@ -46,6 +57,15 @@ public class Main {
         }
         scanner.close();
     }
+        private void viewAllWordsByTimestamp() {
+            System.out.println("All words based on timestamp:");
+            dictionary.printWordsByTimestamp();
+        }
+
+        private void viewAllWords() {
+            System.out.println("All words in alphabetical order:");
+            dictionary.inOrderTraversal();
+        }
 
     private void addNewWord() {
         System.out.print("Enter the word: ");
@@ -98,30 +118,42 @@ class AVLNode {
     AVLNode left;
     AVLNode right;
     int height;
+    long timestamp; // Timestamp for the word
 
-    AVLNode(String word, String definition) {
+
+    AVLNode(String word, String definition, long timestamp) {
         this.word = word;
         this.definition = definition;
+        this.timestamp = timestamp;
         this.height = 1;
     }
 }
 
  class AVLDictionary {
-    private AVLNode root;
+     private AVLNode root; // Declare 'root' variable
 
-    public void insert(String word, String definition) {
-        root = insertRec(root, word, definition);
-    }
+     private List<AVLNode> wordsByTimestamp; // List to store words along with their timestamps
 
-    private AVLNode insertRec(AVLNode root, String word, String definition) {
+     public AVLDictionary() {
+         this.wordsByTimestamp = new ArrayList<>();
+     }
+
+
+     public void insert(String word, String definition) {
+         long timestamp = System.currentTimeMillis(); // Current timestamp
+         root = insertRec(root, word, definition, timestamp); // Pass 'root' here
+         wordsByTimestamp.add(new AVLNode(word, definition, timestamp));
+     }
+
+     private AVLNode insertRec(AVLNode root, String word, String definition, long timestamp)  {
         if (root == null) {
-            return new AVLNode(word, definition);
+            return new AVLNode(word, definition,timestamp);
         }
 
         if (word.compareTo(root.word) < 0) {
-            root.left = insertRec(root.left, word, definition);
+            root.left = insertRec(root.left, word, definition,timestamp);
         } else if (word.compareTo(root.word) > 0) {
-            root.right = insertRec(root.right, word, definition);
+            root.right = insertRec(root.right, word, definition,timestamp);
         } else {
             root.definition = definition;
             return root;
@@ -264,4 +296,25 @@ class AVLNode {
         }
         return current;
     }
-}
+     public void inOrderTraversal() {
+         inOrderTraversal(root);
+     }
+
+
+     // Recursive helper method for in-order traversal
+     private void inOrderTraversal(AVLNode node) {
+         if (node != null) {
+             inOrderTraversal(node.left);
+             System.out.println(node.word);
+             inOrderTraversal(node.right);
+         }
+     }
+     public void printWordsByTimestamp() {
+         for (AVLNode node : wordsByTimestamp) {
+             System.out.println(node.word + " (Timestamp: " + new Date(node.timestamp) + ")");
+         }
+     }
+
+
+
+ }
