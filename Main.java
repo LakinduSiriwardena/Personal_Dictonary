@@ -54,6 +54,11 @@ public class Main {
         String existingDefinition = dictionary.search(word);
         if (existingDefinition != null) {
             System.out.println("Word '" + word + "' already exists in the dictionary with definition: " + existingDefinition);
+            System.out.println("Do you want to edit the definition? (yes/no)");
+            String choice = scanner.nextLine().toLowerCase();
+            if (choice.equals("yes")) {
+                editWordDefinition(word);
+            }
             return; // Exit the method without adding the word
         }
         System.out.print("Enter the definition: ");
@@ -62,6 +67,12 @@ public class Main {
         dictionary.insert(word, definition);
         System.out.println("Word '" + word + "' added to the dictionary.");
     }
+        private void editWordDefinition(String word) {
+            System.out.print("Enter the new definition: ");
+            String newDefinition = scanner.nextLine();
+            dictionary.insert(word, newDefinition);
+            System.out.println("Definition of word '" + word + "' updated.");
+        }
 
     private void checkWordDefinition() {
         System.out.print("Enter the word to check: ");
