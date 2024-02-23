@@ -24,7 +24,7 @@ public class Main {
         while (running) {
             System.out.println("Select an option:");
             System.out.println("1. Add new word");
-            System.out.println("2. Check word definition");
+            System.out.println("2. Check word definition or delete a word");
             System.out.println("3. View all words in alphabetical order");
             System.out.println("4. View words by entry time");
             System.out.println("5. Exit");
@@ -55,7 +55,7 @@ public class Main {
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-            
+
         }
         scanner.close();
     }
@@ -101,13 +101,19 @@ public class Main {
         String word = scanner.nextLine();
 
         String definition = dictionary.search(word);
+
         if (definition != null) {
             System.out.println("Definition of '" + word + "': " + definition);
+            System.out.println("Do you want to delete this word? (yes/no)");
+            String choice = scanner.nextLine().toLowerCase();
+            if (choice.equals("yes")) {
+                dictionary.delete(word);
+                System.out.println("Word '" + word + "' deleted from the dictionary.");
+            }
         } else {
             System.out.println("Word '" + word + "' not found in the dictionary.");
         }
     }
-
     public static void main(String[] args) {
         ConsoleUI ui = new ConsoleUI();
         ui.start();
